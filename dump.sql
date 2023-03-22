@@ -27,9 +27,10 @@ SET default_table_access_method = heap;
 CREATE TABLE public.cakes (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
-    price numeric(3,2) NOT NULL,
+    price numeric(8,2) NOT NULL,
     image character varying(255) NOT NULL,
-    description text NOT NULL
+    description text,
+    CONSTRAINT check_name_length CHECK ((length((name)::text) >= 2))
 );
 
 
@@ -146,12 +147,14 @@ ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.order
 -- Data for Name: cakes; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.cakes VALUES (1, 'Bolo de Chocolate', 38.90, 'https://www.confeiteiradesucesso.com/wp-content/uploads/2019/02/bolodechocolatereceitaf.jpg', 'Bolo de chocolate com muito chocolate!');
 
 
 --
 -- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.clients VALUES (1, 'Juninho Ruindade Pura', 'Esquina do Mata Rindo, 123', '1234567890');
 
 
 --
@@ -164,14 +167,14 @@ ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.order
 -- Name: cakes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.cakes_id_seq', 1, false);
+SELECT pg_catalog.setval('public.cakes_id_seq', 1, true);
 
 
 --
 -- Name: clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.clients_id_seq', 1, false);
+SELECT pg_catalog.setval('public.clients_id_seq', 1, true);
 
 
 --

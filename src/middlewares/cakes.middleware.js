@@ -6,10 +6,11 @@ export const postCakesMiddleware = async (req, res, next) => {
 
     try {
         const cakesValidation = cakesSchema.validate({ name, price, image, description });
+        if(!image) {
+            return res.status(422).send(cakesValidation.error.message);
+        }
+
         if(cakesValidation.error) {
-            if(cakesValidation.error.message == '"image" is required') {
-                return res.status(422).send(cakesValidation.error.message);
-            }
             return res.status(400).send(cakesValidation.error.message);
         }
 
