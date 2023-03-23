@@ -97,8 +97,8 @@ CREATE TABLE public.orders (
     "cakeId" integer NOT NULL,
     quantity integer,
     "createdAt" timestamp without time zone DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
-    "totalPrice" numeric(3,2),
-    CONSTRAINT orders_quantity_check CHECK (((quantity > 0) AND (quantity < 5)))
+    "totalPrice" numeric(8,2),
+    CONSTRAINT orders_quantity_check CHECK (((quantity > 0) AND (quantity <= 5)))
 );
 
 
@@ -148,6 +148,7 @@ ALTER TABLE ONLY public.orders ALTER COLUMN id SET DEFAULT nextval('public.order
 --
 
 INSERT INTO public.cakes VALUES (1, 'Bolo de Chocolate', 38.90, 'https://www.confeiteiradesucesso.com/wp-content/uploads/2019/02/bolodechocolatereceitaf.jpg', 'Bolo de chocolate com muito chocolate!');
+INSERT INTO public.cakes VALUES (2, 'Bolo de Vento', 16.30, 'https://essencialetc.com.br/wp-content/uploads/2018/03/PB020U.jpg', '');
 
 
 --
@@ -161,13 +162,17 @@ INSERT INTO public.clients VALUES (1, 'Juninho Ruindade Pura', 'Esquina do Mata 
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.orders VALUES (1, 1, 1, 2, '2023-03-22 21:10:52.402341', NULL);
+INSERT INTO public.orders VALUES (2, 1, 1, 1, '2023-03-22 21:12:53.649642', NULL);
+INSERT INTO public.orders VALUES (3, 1, 1, 2, '2023-03-22 21:20:30.124791', 77.80);
+INSERT INTO public.orders VALUES (5, 1, 1, 5, '2023-03-22 21:28:29.817467', 194.50);
 
 
 --
 -- Name: cakes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.cakes_id_seq', 1, true);
+SELECT pg_catalog.setval('public.cakes_id_seq', 2, true);
 
 
 --
@@ -181,7 +186,7 @@ SELECT pg_catalog.setval('public.clients_id_seq', 1, true);
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_id_seq', 5, true);
 
 
 --
