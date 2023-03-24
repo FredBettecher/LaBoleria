@@ -27,7 +27,7 @@ export const getOrdersByClientController = async (req, res) => {
             FROM orders o
             JOIN cakes ca ON o."cakeId" = ca.id
             JOIN clients cl ON o."clientId" = cl.id
-            WHERE cl.id = ${id}`
+            WHERE cl.id = $1`, [id]
         );
 
         const result = getOrdersByClient.rows.map((i) => {

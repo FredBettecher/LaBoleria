@@ -101,7 +101,7 @@ export const getOrdersByIdController = async (req, res) => {
             FROM orders o
             JOIN clients cl ON o."clientId" = cl.id
             JOIN cakes ca ON o."cakeId" = ca.id
-            WHERE o.id = ${id}`
+            WHERE o.id = $1`, [id]
         );
 
         const result = getOrdersById.rows.map((i) => {
@@ -132,5 +132,3 @@ export const getOrdersByIdController = async (req, res) => {
         return res.status(500).send(err.message);
     }
 };
-
-// export const getOrdersBy

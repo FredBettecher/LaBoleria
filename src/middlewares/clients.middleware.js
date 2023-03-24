@@ -21,7 +21,7 @@ export const getOrdersByClientMidlleware = async (req, res, next) => {
     const { id } = req.params;
 
     try {
-        const idIsValid = await connection.query(`SELECT * FROM clients WHERE id = ${id}`);
+        const idIsValid = await connection.query(`SELECT * FROM clients WHERE id = $1`, [id]);
         if(idIsValid.rows.length === 0) {
             return res.status(404).send("Client id not found");
         }
