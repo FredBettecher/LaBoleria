@@ -93,12 +93,11 @@ ALTER SEQUENCE public.clients_id_seq OWNED BY public.clients.id;
 
 CREATE TABLE public.orders (
     id integer NOT NULL,
-    "clientId" integer NOT NULL,
-    "cakeId" integer NOT NULL,
-    quantity integer,
-    "createdAt" timestamp without time zone DEFAULT (now() AT TIME ZONE 'America/Sao_Paulo'::text),
-    "totalPrice" numeric(8,2),
-    CONSTRAINT orders_quantity_check CHECK (((quantity > 0) AND (quantity <= 5)))
+    "clientId" integer,
+    "cakeId" integer,
+    quantity integer NOT NULL,
+    "createdAt" timestamp without time zone NOT NULL,
+    "totalPrice" numeric(8,2) NOT NULL
 );
 
 
@@ -156,16 +155,16 @@ INSERT INTO public.cakes VALUES (2, 'Bolo de Vento', 16.30, 'https://essencialet
 --
 
 INSERT INTO public.clients VALUES (1, 'Juninho Ruindade Pura', 'Esquina do Mata Rindo, 123', '1234567890');
+INSERT INTO public.clients VALUES (2, 'Carlota Joaquina', 'Travessa Levei Teu Ouro, 321', '12345654321');
 
 
 --
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.orders VALUES (1, 1, 1, 2, '2023-03-22 21:10:52.402341', NULL);
-INSERT INTO public.orders VALUES (2, 1, 1, 1, '2023-03-22 21:12:53.649642', NULL);
-INSERT INTO public.orders VALUES (3, 1, 1, 2, '2023-03-22 21:20:30.124791', 77.80);
-INSERT INTO public.orders VALUES (5, 1, 1, 5, '2023-03-22 21:28:29.817467', 194.50);
+INSERT INTO public.orders VALUES (2, 1, 2, 1, '2023-03-23 19:15:00', 16.30);
+INSERT INTO public.orders VALUES (3, 2, 1, 5, '2023-03-23 20:59:00', 194.50);
+INSERT INTO public.orders VALUES (4, 2, 2, 2, '2023-03-23 21:55:00', 32.60);
 
 
 --
@@ -179,14 +178,14 @@ SELECT pg_catalog.setval('public.cakes_id_seq', 2, true);
 -- Name: clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.clients_id_seq', 1, true);
+SELECT pg_catalog.setval('public.clients_id_seq', 2, true);
 
 
 --
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 5, true);
+SELECT pg_catalog.setval('public.orders_id_seq', 4, true);
 
 
 --

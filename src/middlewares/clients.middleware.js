@@ -1,3 +1,4 @@
+import connection from "../database/connection.js";
 import { clientsSchema } from "../schemas/clients.schema.js";
 
 export const postClientsMiddleware = async (req, res, next) => {
@@ -14,4 +15,20 @@ export const postClientsMiddleware = async (req, res, next) => {
     } catch(err) {
         return res.status(500).send(err.message);
     }
-}
+};
+
+export const getOrdersByClientMidlleware = async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        const idIsValid = await connection.query(`SELECT * FROM clients WHERE id = ${id}`);
+        if(idIsValid.rows.length === 0) {
+            return res.status(404).send("Client id not found");
+        }
+
+        next();
+
+    } catch(err) {
+        return res.status(500).send(err.message);
+    }
+};
