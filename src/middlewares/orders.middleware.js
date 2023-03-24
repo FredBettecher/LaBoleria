@@ -41,3 +41,19 @@ export const getOrderMiddleware = async (req, res, next) => {
         return res.status(500).send(err.message);
     }
 };
+
+export const getOrdersByIdMiddleware = async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        const idIsValid = await connection.query(`SELECT * FROM clients WHERE id = $1`, [id]);
+        if(idIsValid.rows.length === 0) {
+            return res.status(404).send("Client id not found");
+        }
+
+        next();
+
+    } catch(err) {
+        return res.status(500).send(err.message);
+    }
+};
