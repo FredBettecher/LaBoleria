@@ -1,4 +1,5 @@
-import { ordersSchema } from "../schemas/orders.schema.js";
+import connection from "../database/connection.js";
+import { orderDateSchema, ordersSchema } from "../schemas/orders.schema.js";
 
 export const postOrderMiddleware = async (req, res, next) => {
     const { clientId, cakeId, quantity } = req.body;
@@ -11,6 +12,27 @@ export const postOrderMiddleware = async (req, res, next) => {
 
         if(ordersValidatition.error) {
             return res.status(404).send(ordersValidatition.error.message);
+        }
+
+        next();
+
+    } catch(err) {
+        return res.status(500).send(err.message);
+    }
+};
+
+export const getOrderMiddleware = async (req, res, next) => {
+    const { date } = req.query;
+
+    try {
+        const isOrderEmpty = await connection.query(`SELECT * FROM orders`);
+        if(isOrderEmpty.rows.length === 0) {
+            return res.sendStatus(404);
+        }
+
+        const orderDateValidatition = orderDateSchema.validate({ date });
+        if(orderDateValidatition.error) {
+            return res.sendStatus(404);
         }
 
         next();
